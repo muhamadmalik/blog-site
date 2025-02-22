@@ -5,7 +5,6 @@ export default function BlogPage() {
   return (
     <>
       <main className="grid gap-6 md:grid-cols-2 auto-rows-min md:order-1">
-        {/* Featured Article */}
         <article className="bg-white/5 rounded-lg p-6 hover:bg-white/10 transition-colors">
           <div className="space-y-4">
             <div className="text-sm text-gray-400">Monday, 06. March 2023</div>
@@ -31,7 +30,6 @@ export default function BlogPage() {
           </div>
         </article>
 
-        {/* Additional Articles */}
         <article className="bg-white/5 rounded-lg p-6 hover:bg-white/10 transition-colors">
           <div className="space-y-4">
             <div className="text-sm text-gray-400">
