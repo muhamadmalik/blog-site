@@ -1,30 +1,22 @@
 'use client';
-import type { Article } from '@/app/types';
 import { apiRouter } from '@/lib/utils';
-import { useEffect, useState } from 'react';
 import ArticleCard from '@/components/articleCard';
-
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 export default function LatestBlogs() {
   const latestUrl = apiRouter('/api/articles/latest');
-  const [articles, setArticles] = useState<Article[]>([]);
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch(latestUrl);
-        if (!response.ok) throw new Error('Failed to fetch articles.');
-        const result = await response.json();
-        setArticles(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchArticles();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const fetchLatestArticles = async () => {
+    const { data } = await axios.get(latestUrl);
+    return data;
+  };
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['latestArticles'],
+    queryFn: fetchLatestArticles,
+  });
+  if (isLoading) return <p>loading</p>;
+  if (error) return <>Error: {error.message}</>;
   return (
-    <>
-      {articles.length > 0 ? <ArticleCard articles={articles} /> : 'Loading...'}
-    </>
+    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'Loading...'}</>
   );
 }
 
