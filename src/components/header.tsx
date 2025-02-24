@@ -15,7 +15,7 @@ export const Header = () => {
             </h1>
             <div className="hidden md:flex gap-8">
               <Link
-                href="/all"
+                href="/"
                 onClick={() => {
                   setActiveTab('all');
                 }}
@@ -23,7 +23,6 @@ export const Header = () => {
                   activeTab == 'all' ? 'border-b-2' : 'border-b-0',
                   'hover:text-pink-500  border-pink-500'
                 )}
-                // className="hover:text-pink-500 border-b-2 border-pink-500"
               >
                 All Articles
               </Link>
