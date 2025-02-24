@@ -1,12 +1,24 @@
+'use client';
 import { Search, Github, Mail, Shuffle, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { apiRouter } from '@/lib/utils';
 export const SideBar = () => {
+  const tagUrl = apiRouter('/api/tags');
+  const fetchTags = async () => {
+    const { data } = await axios.get(tagUrl);
+    return data;
+  };
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['tags'],
+    queryFn: fetchTags,
+  });
+
   return (
     <>
       <aside className="space-y-8 md:order-2">
-        {/* Search */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold">Search</h2>
           <div className="relative">
@@ -22,41 +34,35 @@ export const SideBar = () => {
           </div>
         </div>
 
-        {/* Tags */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">All tags</h2>
-          <div className="flex flex-wrap gap-2">
-            {[
-              'JavaScript',
-              'HTML',
-              'CSS',
-              'TypeScript',
-              'React',
-              'AI',
-              'MongoDB',
-              'Mindset',
-              'Node.js',
-              'Vite',
-              'Express',
-              'Git',
-              'Visual Studio Code',
-              'Tools',
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="bg-[#D84A05] px-3 py-1 rounded-full text-sm hover:bg-[#D84A05]/80 cursor-pointer"
+          {error ? (
+            <>{error.message}</>
+          ) : isLoading ? (
+            <>Loading...</>
+          ) : data.length == 0 ? (
+            <>No Tags</>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold">All tags</h2>
+              <div className="flex flex-wrap gap-2">
+                {data.map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="bg-[#D84A05] px-3 py-1 rounded-full text-sm hover:bg-[#D84A05]/80 cursor-pointer"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <Button
+                variant="ghost"
+                className="w-full text-gray-400 hover:text-white mt-4"
               >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <Button
-            variant="ghost"
-            className="w-full text-gray-400 hover:text-white mt-4"
-          >
-            <XCircle className="w-4 h-4 mr-2" />
-            Clear filter
-          </Button>
+                <XCircle className="w-4 h-4 mr-2" />
+                Clear filter
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Actions */}
