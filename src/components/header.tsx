@@ -1,59 +1,40 @@
 'use client';
+
 import Link from 'next/link';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+
 export const Header = () => {
-  const [activeTab, setActiveTab] = useState('all');
+  const pathname = usePathname();
+  const navItems = [
+    { name: 'All Articles', path: '/articles/all' },
+    { name: 'Latest Articles', path: '/articles/latest' },
+    { name: 'About', path: '/about' },
+  ]
   return (
-    <>
-      <header className="mb-12">
-        <nav className="flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <h1 className="text-2xl font-bold">
-              <span className="text-pink-500">./</span>david
-              <span className="text-pink-500">/</span>blogs
-            </h1>
-            <div className="hidden md:flex gap-8">
+    <header className="mb-12">
+      <nav className="flex items-center justify-between">
+        <div className="flex items-center gap-52 w-full">
+          <h1 className="text-2xl font-bold">
+            <span className="text-pink-500">./</span>muhamad
+            <span className="text-pink-500">/</span>blogs
+          </h1>
+          <div className="hidden md:flex gap-12">
+            {navItems.map(({ name, path }) => (
               <Link
-                href="/"
-                onClick={() => {
-                  setActiveTab('all');
-                }}
+                key={path}
+                href={path}
                 className={clsx(
-                  activeTab == 'all' ? 'border-b-2' : 'border-b-0',
-                  'hover:text-pink-500  border-pink-500'
-                )}
-              >
-                All Articles
-              </Link>
-              <Link
-                href="/latest"
-                onClick={() => {
-                  setActiveTab('latest');
-                }}
-                className={clsx(
-                  activeTab == 'latest' ? 'border-b-2' : 'border-b-0',
-                  'hover:text-pink-500  border-pink-500'
-                )}
-              >
-                Latest Articles
-              </Link>
-              <Link
-                href="/about"
-                onClick={() => {
-                  setActiveTab('about');
-                }}
-                className={clsx(
-                  activeTab == 'about' ? 'border-b-2' : 'border-b-0',
+                  pathname === path ? 'border-b-2 text-pink-500' : 'border-b-0',
                   'hover:text-pink-500 border-pink-500'
                 )}
               >
-                About
+                {name}
               </Link>
-            </div>
+            ))}
           </div>
-        </nav>
-      </header>
-    </>
+        </div>
+      </nav>
+    </header>
   );
 };
