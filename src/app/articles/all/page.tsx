@@ -3,9 +3,8 @@ import { apiRouter } from '@/lib/utils';
 import ArticleCard from '@/components/articleCard';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-export default function BlogPage() {
 
-  
+export default function BlogPage() {
   const articlesUrl = apiRouter('/api/articles/all');
   const fetchArticles = async () => {
     const { data } = await axios.get(articlesUrl);
@@ -23,4 +22,3 @@ export default function BlogPage() {
     <>{data.length > 0 ? <ArticleCard articles={data} /> : 'Loading...'}</>
   );
 }
-

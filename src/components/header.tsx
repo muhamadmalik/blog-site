@@ -16,7 +16,7 @@ export const Header = () => {
       <nav className="flex items-center justify-between">
         <div className="flex items-center gap-52 w-full">
           <h1 className="text-2xl font-bold">
-            <span className="text-pink-500">./</span>muhamad
+            <span className="text-pink-500">./</span>malik
             <span className="text-pink-500">/</span>blogs
           </h1>
           <div className="hidden md:flex gap-12">

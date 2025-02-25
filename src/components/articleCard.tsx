@@ -1,12 +1,14 @@
 import { Article } from '@/app/types';
 import { formatDate, truncateText } from '@/lib/utils';
 import { Button } from './ui/button';
+import Link from 'next/link';
 const ArticleCard = ({ articles }: { articles: Article[] }) => {
   return (
     <>
       <main className="grid gap-6 grid-cols-1 lg:grid-cols-2 auto-rows-min">
         {articles.map((article) => (
-          <article
+          <Link
+            href={`/articles/${article.id}`}
             key={article.id}
             className="bg-white/5 rounded-lg p-6 hover:bg-white/10 transition-colors"
           >
@@ -29,7 +31,7 @@ const ArticleCard = ({ articles }: { articles: Article[] }) => {
                 </Button>
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </main>
     </>
