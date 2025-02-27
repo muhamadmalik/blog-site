@@ -1,57 +1,55 @@
-"use client";
-import { useState } from "react";
-import { Search, Github, Mail, Shuffle, XCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { apiRouter } from "@/lib/utils";
+'use client';
+import { useState } from 'react';
+import { Search, Github, Mail, Shuffle, XCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { apiRouter } from '@/lib/utils';
 
 export const SideBar = () => {
-  const tagUrl = apiRouter("/api/tags");
-  const articlesUrl = apiRouter("/api/articles"); // API for fetching articles
+  const tagUrl = apiRouter('/api/tags');
+  const articlesUrl = apiRouter('/api/articles');
 
-  // State to store selected tags
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Fetch tags
   const fetchTags = async () => {
     const { data } = await axios.get(tagUrl);
     return data;
   };
 
-  const { data: tags, isLoading, error } = useQuery({
-    queryKey: ["tags"],
+  const {
+    data: tags,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['tags'],
     queryFn: fetchTags,
   });
 
-  // Fetch articles based on selected tags
   const fetchArticles = async () => {
     const { data } = await axios.get(articlesUrl, {
-      params: { tags: selectedTags.join(",") }, // Sending selected tags as query params
+      params: { tags: selectedTags.join(',') },
     });
     return data;
   };
 
   const { data: articles, isLoading: loadingArticles } = useQuery({
-    queryKey: ["articles", selectedTags],
+    queryKey: ['articles', selectedTags],
     queryFn: fetchArticles,
-    enabled: selectedTags.length > 0, // Fetch only if tags are selected
+    enabled: selectedTags.length > 0,
   });
 
-  // Function to toggle tag selection
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
   };
 
-  // Function to clear selected tags
   const clearFilters = () => setSelectedTags([]);
 
   return (
     <aside className="space-y-8 md:order-2">
-      {/* Search Input */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Search</h2>
         <div className="relative">
@@ -67,7 +65,6 @@ export const SideBar = () => {
         </div>
       </div>
 
-      {/* Tags Section */}
       <div className="space-y-4">
         {error ? (
           <>{error.message}</>
@@ -84,8 +81,8 @@ export const SideBar = () => {
                   key={tag.id}
                   className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
                     selectedTags.includes(tag.name)
-                      ? "bg-pink-500 text-white"
-                      : "bg-gray-300 hover:bg-gray-400"
+                      ? 'bg-pink-500 text-white'
+                      : 'bg-gray-300 hover:bg-gray-400'
                   }`}
                   onClick={() => toggleTag(tag.name)}
                 >
@@ -94,7 +91,7 @@ export const SideBar = () => {
               ))}
             </div>
 
-            {/* Clear Filter Button */}
+         
             {selectedTags.length > 0 && (
               <Button
                 variant="ghost"
@@ -109,7 +106,7 @@ export const SideBar = () => {
         )}
       </div>
 
-      {/* Articles Section */}
+
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Articles</h2>
         {loadingArticles ? (
@@ -127,7 +124,6 @@ export const SideBar = () => {
         )}
       </div>
 
-      {/* Actions */}
       <div className="space-y-4">
         <Button variant="secondary" className="w-full justify-between">
           Random article

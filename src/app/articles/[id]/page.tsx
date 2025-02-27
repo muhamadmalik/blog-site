@@ -24,15 +24,16 @@ const ArticlePage = () => {
         <span>{formatDate('2023-02-26')}</span>
       </header>
       <h1 className="text-4xl font-bold mt-4 leading-tight">{data.title}</h1>
-      {data?.tags.map((tag: tag) => (
-        <>
-          <div className="mt-4">
-            <span className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
-              {tag.name}
-            </span>
-          </div>
-        </>
-      ))}
+      <div className="mt-4 flex gap-3">
+        {data.tags &&
+          data?.tags.map((tag: tag) => (
+            <>
+              <span className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
+                {tag.name}
+              </span>
+            </>
+          ))}
+      </div>
       <div className="flex items-center gap-2 text-gray-500 text-sm mt-4">
         <span className="text-lg">⏳</span>
         <span>4 min</span>
