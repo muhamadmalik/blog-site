@@ -3,6 +3,7 @@ import { apiRouter, formatDate } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
+import { tag } from '@/app/types';
 
 const ArticlePage = () => {
   const { id } = useParams();
@@ -23,11 +24,15 @@ const ArticlePage = () => {
         <span>{formatDate('2023-02-26')}</span>
       </header>
       <h1 className="text-4xl font-bold mt-4 leading-tight">{data.title}</h1>
-      <div className="mt-4">
-        <span className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
-          JavaScript
-        </span>
-      </div>
+      {data?.tags.map((tag: tag) => (
+        <>
+          <div className="mt-4">
+            <span className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
+              {tag.name}
+            </span>
+          </div>
+        </>
+      ))}
       <div className="flex items-center gap-2 text-gray-500 text-sm mt-4">
         <span className="text-lg">⏳</span>
         <span>4 min</span>
