@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { apiRouter } from '@/lib/utils';
+import Link from 'next/link';
 
 export const SideBar = () => {
   const tagUrl = apiRouter('/api/tags');
@@ -91,7 +92,6 @@ export const SideBar = () => {
               ))}
             </div>
 
-         
             {selectedTags.length > 0 && (
               <Button
                 variant="ghost"
@@ -105,7 +105,6 @@ export const SideBar = () => {
           </>
         )}
       </div>
-
 
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Articles</h2>
@@ -133,12 +132,19 @@ export const SideBar = () => {
           Theme: Default
         </Button>
         <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1">
-            <Github className="w-4 h-4" />
-          </Button>
-          <Button variant="secondary" className="flex-1">
-            <Mail className="w-4 h-4" />
-          </Button>
+          <Link
+            target="_blank"
+            href={'https://github.com/muhamadmalik?tab=repositories'}
+          >
+            <Button variant="secondary" className="flex-1">
+              <Github className="w-4 h-4" />
+            </Button>
+          </Link>
+          <Link href="mailto:muhamadmalik.dev@gmail.com?subject=Hello&body=I want to contact you">
+            <Button variant="secondary" className="flex-1">
+              <Mail className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </aside>
