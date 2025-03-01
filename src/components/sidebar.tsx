@@ -131,17 +131,21 @@ export const SideBar = () => {
         <Button variant="secondary" className="w-full justify-between">
           Theme: Default
         </Button>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full">
           <Link
+            className="w-full"
             target="_blank"
             href={'https://github.com/muhamadmalik?tab=repositories'}
           >
-            <Button variant="secondary" className="flex-1">
+            <Button variant="secondary" className="flex-1 w-full">
               <Github className="w-4 h-4" />
             </Button>
           </Link>
-          <Link href="mailto:muhamadmalik.dev@gmail.com?subject=Hello&body=I want to contact you">
-            <Button variant="secondary" className="flex-1">
+          <Link
+            className="w-full"
+            href="mailto:muhamadmalik.dev@gmail.com?subject=Hello&body=I want to contact you"
+          >
+            <Button variant="secondary" className="flex-1 w-full">
               <Mail className="w-4 h-4" />
             </Button>
           </Link>
