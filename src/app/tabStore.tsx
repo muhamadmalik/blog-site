@@ -25,18 +25,38 @@ export const useLoadingStore = create<LoadingState>()((set) => ({
   setLoading: (value: boolean) => set({ isLoading: value }),
 }));
 
-export type tags = Array<{ name: string }>;
+export type tags = Array<string>;
 export type TagState = {
   activeTags: tags;
-  setActiveTags: (tags: tags) => void;
+  setActiveTags: (tag: string) => void;
 };
+
+
+// export const useTagStoree = create()(
+//   persist(
+//     (set) => ({
+//       activeTags: [],
+//       setActiveTags: () => {
+//         set({ activeTags: activeTags.filter((t) => t != tag) });
+//       },
+//     }),
+//     { name: 'tag-storage' }
+//   )
+// );
 
 export const useTagStore = create<TagState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       activeTags: [],
-      setActiveTags: (tags) => set({ activeTags: tags }),
+      setActiveTags: (tag) => {
+        const { activeTags } = get();
+        set({
+          activeTags: activeTags.includes(tag)
+            ? activeTags.filter((t) => t !== tag) 
+            : [...activeTags, tag], 
+        });
+      },
     }),
-    { name: 'tag-storage' }
+    { name: "tag-storage" }
   )
 );

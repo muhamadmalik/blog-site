@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-import { Search, Github, Mail, Shuffle, XCircle } from 'lucide-react';
+// import { useState } from 'react';
+import { Search, Github, Mail, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
@@ -11,15 +11,16 @@ import { useTagStore } from '@/app/tabStore';
 
 export const SideBar = () => {
   const tagUrl = apiRouter('/api/tags');
-  const articlesUrl = apiRouter('/api/articles');
 
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  // const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const { activeTags, setActiveTags } = useTagStore();
   const fetchTags = async () => {
     const { data } = await axios.get(tagUrl);
+    // setActiveTags(data)
     return data;
   };
 
+  // console.log(activeTags)
   const {
     data: tags,
     isLoading,
@@ -28,7 +29,7 @@ export const SideBar = () => {
     queryKey: ['tags'],
     queryFn: fetchTags,
   });
-
+  console.log(activeTags);
   //   const fetchArticles = async () => {
   //     const { data } = await axios.get(articlesUrl, {
   //       params: { tags: selectedTags.join(',') },
@@ -43,12 +44,14 @@ export const SideBar = () => {
   //   });
 
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setActiveTags(tag);
+    // setActiveTags(selectedTags)
+    // console.log(selectedTags)
+    console.log(tag);
+    console.log(activeTags.filter((tagParam) => tagParam == tag));
   };
 
-  const clearFilters = () => setSelectedTags([]);
+  // const clearFilters = () => setActiveTags([]);
 
   return (
     <aside className="space-y-8 md:order-2">
@@ -82,7 +85,7 @@ export const SideBar = () => {
                 <span
                   key={tag.id}
                   className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-                    selectedTags.includes(tag.name)
+                    activeTags.includes(tag.name)
                       ? 'bg-pink-500 text-white'
                       : 'bg-gray-300 hover:bg-gray-400'
                   }`}
@@ -93,11 +96,11 @@ export const SideBar = () => {
               ))}
             </div>
 
-            {selectedTags.length > 0 && (
+            {tags.length > 0 && (
               <Button
                 variant="ghost"
                 className="w-full text-gray-400 hover:text-white mt-4"
-                onClick={clearFilters}
+                // onClick={clearFilters}
               >
                 <XCircle className="w-4 h-4 mr-2" />
                 Clear filter
