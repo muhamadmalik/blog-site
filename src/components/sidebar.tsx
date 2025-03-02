@@ -12,15 +12,12 @@ import { useTagStore } from '@/app/tabStore';
 export const SideBar = () => {
   const tagUrl = apiRouter('/api/tags');
 
-  // const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const { activeTags, setActiveTags } = useTagStore();
+  const { activeTags, setActiveTags, setClearFilter } = useTagStore();
   const fetchTags = async () => {
     const { data } = await axios.get(tagUrl);
-    // setActiveTags(data)
     return data;
   };
 
-  // console.log(activeTags)
   const {
     data: tags,
     isLoading,
@@ -29,29 +26,12 @@ export const SideBar = () => {
     queryKey: ['tags'],
     queryFn: fetchTags,
   });
-  console.log(activeTags);
-  //   const fetchArticles = async () => {
-  //     const { data } = await axios.get(articlesUrl, {
-  //       params: { tags: selectedTags.join(',') },
-  //     });
-  //     return data;
-  //   };
-  //
-  //   const { data: articles, isLoading: loadingArticles } = useQuery({
-  //     queryKey: ['articles', selectedTags],
-  //     queryFn: fetchArticles,
-  //     enabled: selectedTags.length > 0,
-  //   });
 
   const toggleTag = (tag: string) => {
     setActiveTags(tag);
-    // setActiveTags(selectedTags)
-    // console.log(selectedTags)
-    console.log(tag);
-    console.log(activeTags.filter((tagParam) => tagParam == tag));
   };
 
-  // const clearFilters = () => setActiveTags([]);
+  const clearFilters = () => setClearFilter();
 
   return (
     <aside className="space-y-8 md:order-2">
@@ -100,7 +80,7 @@ export const SideBar = () => {
               <Button
                 variant="ghost"
                 className="w-full text-gray-400 hover:text-white mt-4"
-                // onClick={clearFilters}
+                onClick={clearFilters}
               >
                 <XCircle className="w-4 h-4 mr-2" />
                 Clear filter

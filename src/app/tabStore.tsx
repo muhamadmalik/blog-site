@@ -29,20 +29,9 @@ export type tags = Array<string>;
 export type TagState = {
   activeTags: tags;
   setActiveTags: (tag: string) => void;
+  setClearFilter: () => void;
 };
 
-
-// export const useTagStoree = create()(
-//   persist(
-//     (set) => ({
-//       activeTags: [],
-//       setActiveTags: () => {
-//         set({ activeTags: activeTags.filter((t) => t != tag) });
-//       },
-//     }),
-//     { name: 'tag-storage' }
-//   )
-// );
 
 export const useTagStore = create<TagState>()(
   persist(
@@ -52,11 +41,14 @@ export const useTagStore = create<TagState>()(
         const { activeTags } = get();
         set({
           activeTags: activeTags.includes(tag)
-            ? activeTags.filter((t) => t !== tag) 
-            : [...activeTags, tag], 
+            ? activeTags.filter((t) => t !== tag)
+            : [...activeTags, tag],
         });
       },
+      setClearFilter: () => {
+        set({ activeTags: [] });
+      },
     }),
-    { name: "tag-storage" }
+    { name: 'tag-storage' }
   )
 );
