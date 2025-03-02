@@ -3,20 +3,40 @@ import { apiRouter } from '@/lib/utils';
 import ArticleCard from '@/components/articleCard';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-export default function LatestBlogs() {
-  const latestUrl = apiRouter('/api/articles/latest');
-  const fetchLatestArticles = async () => {
-    const { data } = await axios.get(latestUrl);
-    return data;
+import { useTagStore } from '@/app/tabStore';
+import { Article } from '@/app/types';
+
+export default function BlogPage() {
+  const { activeTags } = useTagStore();
+
+  const articlesUrl = apiRouter('/api/articles/latest');
+
+  const fetchArticles = async () => {
+    const { data } = await axios.get<Article[]>(articlesUrl);
+
+    if (activeTags.length === 0) return data;
+
+    return data.filter((article) =>
+      article.tags.some((tag) => activeTags.includes(tag.name))
+    );
   };
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['latestArticles'],
-    queryFn: fetchLatestArticles,
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['latestArticles', activeTags],
+    queryFn: fetchArticles,
   });
-  if (isLoading) return <p>loading</p>;
-  if (error) return <>Error: {error.message}</>;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
-    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'No Articles Found'}</>
+    <>
+      {data && data.length > 0 ? (
+        <ArticleCard articles={data} />
+      ) : (
+        'No Articles Found'
+      )}
+    </>
   );
 }
 
