@@ -19,6 +19,6 @@ export default function BlogPage() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'Loading...'}</>
+    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'No Articles Found'}</>
   );
 }

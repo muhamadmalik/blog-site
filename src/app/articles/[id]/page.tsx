@@ -19,7 +19,7 @@ const ArticlePage = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <main className="max-w-3xl mx-auto px-6 py-12">
+    <main key={`article_${id}`} className="max-w-3xl mx-auto px-6 py-12">
       <header className="flex justify-between text-gray-500 text-sm">
         <span>{formatDate('2023-02-26')}</span>
       </header>
@@ -27,11 +27,11 @@ const ArticlePage = () => {
       <div className="mt-4 flex gap-3">
         {data.tags &&
           data?.tags.map((tag: tag) => (
-            <>
-              <span className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
+            <div key={tag.name}>
+              <span  className="bg-orange-600 text-white text-sm px-3 py-1 rounded-md">
                 {tag.name}
               </span>
-            </>
+            </div>
           ))}
       </div>
       <div className="flex items-center gap-2 text-gray-500 text-sm mt-4">

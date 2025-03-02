@@ -16,7 +16,7 @@ export default function LatestBlogs() {
   if (isLoading) return <p>loading</p>;
   if (error) return <>Error: {error.message}</>;
   return (
-    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'Loading...'}</>
+    <>{data.length > 0 ? <ArticleCard articles={data} /> : 'No Articles Found'}</>
   );
 }
 

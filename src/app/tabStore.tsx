@@ -24,3 +24,19 @@ export const useLoadingStore = create<LoadingState>()((set) => ({
   isLoading: true,
   setLoading: (value: boolean) => set({ isLoading: value }),
 }));
+
+export type tags = Array<{ name: string }>;
+export type TagState = {
+  activeTags: tags;
+  setActiveTags: (tags: tags) => void;
+};
+
+export const useTagStore = create<TagState>()(
+  persist(
+    (set) => ({
+      activeTags: [],
+      setActiveTags: (tags) => set({ activeTags: tags }),
+    }),
+    { name: 'tag-storage' }
+  )
+);

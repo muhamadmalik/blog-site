@@ -7,13 +7,14 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { apiRouter } from '@/lib/utils';
 import Link from 'next/link';
+import { useTagStore } from '@/app/tabStore';
 
 export const SideBar = () => {
   const tagUrl = apiRouter('/api/tags');
   const articlesUrl = apiRouter('/api/articles');
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
+  const { activeTags, setActiveTags } = useTagStore();
   const fetchTags = async () => {
     const { data } = await axios.get(tagUrl);
     return data;
@@ -28,18 +29,18 @@ export const SideBar = () => {
     queryFn: fetchTags,
   });
 
-  const fetchArticles = async () => {
-    const { data } = await axios.get(articlesUrl, {
-      params: { tags: selectedTags.join(',') },
-    });
-    return data;
-  };
-
-  const { data: articles, isLoading: loadingArticles } = useQuery({
-    queryKey: ['articles', selectedTags],
-    queryFn: fetchArticles,
-    enabled: selectedTags.length > 0,
-  });
+  //   const fetchArticles = async () => {
+  //     const { data } = await axios.get(articlesUrl, {
+  //       params: { tags: selectedTags.join(',') },
+  //     });
+  //     return data;
+  //   };
+  //
+  //   const { data: articles, isLoading: loadingArticles } = useQuery({
+  //     queryKey: ['articles', selectedTags],
+  //     queryFn: fetchArticles,
+  //     enabled: selectedTags.length > 0,
+  //   });
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -107,30 +108,6 @@ export const SideBar = () => {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Articles</h2>
-        {loadingArticles ? (
-          <>Loading articles...</>
-        ) : articles && articles.length > 0 ? (
-          <ul className="space-y-2">
-            {articles.map((article: { id: number; title: string }) => (
-              <li key={article.id} className="border-b py-2">
-                {article.title}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <>No articles found</>
-        )}
-      </div>
-
-      <div className="space-y-4">
-        <Button variant="secondary" className="w-full justify-between">
-          Random article
-          <Shuffle className="w-4 h-4" />
-        </Button>
-        <Button variant="secondary" className="w-full justify-between">
-          Theme: Default
-        </Button>
         <div className="flex gap-2 w-full">
           <Link
             className="w-full"
@@ -139,6 +116,7 @@ export const SideBar = () => {
           >
             <Button variant="secondary" className="flex-1 w-full">
               <Github className="w-4 h-4" />
+              Github
             </Button>
           </Link>
           <Link
@@ -147,6 +125,7 @@ export const SideBar = () => {
           >
             <Button variant="secondary" className="flex-1 w-full">
               <Mail className="w-4 h-4" />
+              Email
             </Button>
           </Link>
         </div>
