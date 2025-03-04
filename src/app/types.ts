@@ -15,16 +15,15 @@ export type tag = {
 
 export type Author = {
   id: number;
-  name: string;
+  username: string;
   articles: Article[];
   comments: Comment[];
 };
 export type Comment = {
   id: number;
-  author: Author;
+  username: string,
   title: string;
   text: string;
-  authorId: number;
   createdAt: string;
   articleId: number;
 };

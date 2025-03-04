@@ -20,7 +20,7 @@ const ArticleCard = ({ articles }: { articles: Article[] }) => {
               <p className="text-gray-400">{truncateText(article.text)}</p>
               <div className="flex items-center justify-between pt-4">
                 <div className="flex items-center gap-2">
-                  <span>{article.comments.length}</span>
+                  <span>{article.comments?.length}</span>
                   <span className="text-gray-400">comments</span>
                 </div>
                 <Button

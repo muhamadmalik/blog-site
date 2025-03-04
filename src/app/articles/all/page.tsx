@@ -25,7 +25,7 @@ export default function BlogPage() {
     queryKey: ['articles', activeTags],
     queryFn: fetchArticles,
   });
-
+  console.log(data)
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
