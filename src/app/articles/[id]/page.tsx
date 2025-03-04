@@ -57,7 +57,7 @@ const ArticlePage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <main key={`article_${id}`} className="max-w-3xl mx-auto px-6 py-12">
+    <main key={`article_${id}`} className="max-w-3xl ">
       <header className="flex justify-between text-gray-500 text-sm">
         <span>{formatDate(data.createdAt)}</span>
       </header>
@@ -80,11 +80,9 @@ const ArticlePage = () => {
         <p>{data.text}</p>
       </article>
 
-      {/* Comment Section */}
       <section className="mt-10">
         <h2 className="text-2xl font-bold">Comments</h2>
 
-        {/* Display Comments */}
         <div className="mt-4 space-y-4">
           {data.comments?.map((comment: Comment) => (
             <div key={comment.id} className="border-b border-gray-700 pb-2">
@@ -97,7 +95,6 @@ const ArticlePage = () => {
           ))}
         </div>
 
-        {/* Add Comment Button */}
         {!showCommentBox && (
           <button
             className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
@@ -107,7 +104,6 @@ const ArticlePage = () => {
           </button>
         )}
 
-        {/* Add Comment Form */}
         {showCommentBox && (
           <div className="mt-6">
             <input
