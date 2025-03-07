@@ -10,7 +10,7 @@ export default function BlogPage() {
   const { activeTags } = useTagStore();
 
   const articlesUrl = apiRouter('/api/articles/all');
-
+  console.log(articlesUrl)
   const fetchArticles = async () => {
     const { data } = await axios.get<Article[]>(articlesUrl);
 
