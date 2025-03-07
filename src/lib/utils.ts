@@ -24,4 +24,4 @@ export function truncateText(text: string, length = 100) {
 }
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const apiRouter = (path: string) => `${API_URL}/${path}`;
+export const apiRouter = (path: string) => `${API_URL}${path}`;
